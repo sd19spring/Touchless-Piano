@@ -1,0 +1,12 @@
+﻿To do:
+Week 1:
+Lee: Work on setting up keys and finding piano sounds (structure to include instrument select)
+S: Adapt code to work with a pointer finger
+
+Week 2: Integration
+Making the buttons work
+
+http://www.benmeline.com/finger-tracking-with-opencv-and-python/
+
+Week xx: 
+Include song scraping

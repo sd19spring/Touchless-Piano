@@ -18,11 +18,11 @@ def playnote():
     oknotes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'c5']
     n = input("Press which note you would like to play! For high C, input C5.")
     sf = input("Is the note sharp or flat? Input s for sharp, f for flat, or nothing for neither.")
-    if sf == 's':
-        n = n + '#'
-    if sf == 'f':
-        n = n + "-"
     if n.lower() in oknotes:
+        if sf == 's':
+            n = n + '#'
+        if sf == 'f':
+            n = n + "-"
         n = note.Note(str(n.upper()))
         n.duration.type = 'whole'
         return n.show('midi')
@@ -33,5 +33,3 @@ def playnote():
 playnote()
 
 
-n = 'd'
-n = 'd' + '-'

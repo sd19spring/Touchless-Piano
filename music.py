@@ -13,23 +13,25 @@ environment.set('midiPath', '/usr/bin/timidity')
 import music21
 from music21 import *
 
-import pygame
-from pygame import *
 
 def playnote():
     oknotes = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'c5']
     n = input("Press which note you would like to play! For high C, input C5.")
     sf = input("Is the note sharp or flat? Input s for sharp, f for flat, or nothing for neither.")
+    if sf == 's':
+        n = n + '#'
+    if sf == 'f':
+        n = n + "-"
     if n.lower() in oknotes:
         n = note.Note(str(n.upper()))
         n.duration.type = 'whole'
-        if sf == 's':
-            n = n + '#'
-        if sf == 'f':
-            n = n + "-"
         return n.show('midi')
     else:
         return "Error: Out of Range. Please input a letter between A and G, or C5."
 
 
 playnote()
+
+
+n = 'd'
+n = 'd' + '-'

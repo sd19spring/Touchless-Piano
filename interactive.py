@@ -2,7 +2,7 @@
 import numpy as np
 import cv2 as cv2
 from threading import Thread
-
+from music21 import *
 
 class Webcam:
 
@@ -48,13 +48,13 @@ class Detection(object):
 
         # store motion level for each cell
         cells = np.array([0, 0, 0, 0, 0, 0, 0])
-        # cells[0] = cv2.countNonZero(threshold_image[0:int(height), 0:int(cell_width]))
-        # cells[1] = cv2.countNonZero(int(threshold_image[0:height, cell_width:cell_width * 2]))
-        # cells[2] = cv2.countNonZero(int(threshold_image[0:height, cell_width * 2:cell_width * 3]))
-        # cells[3] = cv2.countNonZero(int(threshold_image[0:height, cell_width * 3:cell_width * 4]))
-        # cells[4] = cv2.countNonZero(int(threshold_image[0:height, cell_width * 4:cell_width * 5]))
-        # cells[5] = cv2.countNonZero(int(threshold_image[0:height, cell_width * 5:cell_width * 6]))
-        # cells[6] = cv2.countNonZero(int(threshold_image[0:height, cell_width * 6:width]))
+        cells[0] = cv2.countNonZero(threshold_image[0:int(height), 0:int(cell_width)])
+        cells[1] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width):int(cell_width) * 2])
+        cells[2] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 2:int(cell_width) * 3])
+        cells[3] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 3:int(cell_width) * 4])
+        cells[4] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 4:int(cell_width) * 5])
+        cells[5] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 5:int(cell_width) * 6])
+        cells[6] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 6:int(width)])
 
         # obtain the most active cell
         top_cell = np.argmax(cells)
@@ -89,9 +89,11 @@ while True:
     if cell == None: continue
 
     # if switch on, play note
+    # Currently this weird.
     if switch:
-        winsound.Beep(NOTES[cell], 1000)
-
+        n = (NOTES[cell], 1000)
+        n = n.Notes(str(n))
+        n.show('midi')
     # alternate switch
     switch = not switch
 

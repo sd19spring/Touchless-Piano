@@ -60,13 +60,13 @@ class Detection(object):
         top_cell = np.argmax(cells)
 
         # return the most active cell, if threshold met
-        if (cells[top_cell] >= self.THRESHOLD):
+        if cells[top_cell] >= self.THRESHOLD:
             return top_cell
         else:
             return None
 
-# musical notes (C, D, E, F, G, A, B)
-NOTES = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+# musical notes (C, D, E, F, G,cells[7] A, B)
+note.list = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 
 # initialise webcam and start thread
 webcam = Webcam()
@@ -89,10 +89,9 @@ while True:
     if cell == None: continue
 
     # if switch on, play note
-    # Currently this weird.
     if switch:
-        n = (NOTES[cell], 1000)
-        n = n.Notes(str(n))
+        n = (note.list[cell])
+        n = note.Note(str(n.upper()))
         n.show('midi')
     # alternate switch
     switch = not switch

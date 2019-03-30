@@ -15,7 +15,7 @@ while(True):
         hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
         
         #defining the range of Red color
-        lower_red = np.array([0, 100, 100])
+        lower_red = np.array([0, 120, 120])
         upper_red = np.array([179, 255, 255])
 
         #finding the threshold range of red colour in the image
@@ -31,22 +31,21 @@ while(True):
         for picture, contour in enumerate(contours):
             # finds the area of the contour region
             area = cv2.contourArea(contour)
-            if(area>300):    
-                #finds the coordinates of the region
-                x,y,w,h = cv2.boundingRect(contour) 
-                #draws a frame around the region    
-                frame = cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),3)
-                #gives the coordinates of the finger
-                fx = x + w/2;
-                fy = y + h/2;
-                print(fx)
-                print(fy)
+            #finds the coordinates of the region
+            x,y,w,h = cv2.boundingRect(contour)         
+            #draws a frame around the region    
+            frame = cv2.rectangle(frame,(x,y),(x+w,y+h),(255,255,255),3)
+            #gives the coordinates of the finger
+            fx = x + w/2
+            fy = y - h/2
+            print(fx)
+            #print(fy)
 
         #Shows the video being captured, frame by frame                
         cv2.imshow("Finger Tracking",frame)
         frame = cv2.flip(frame,1)
         #Shows the masked region
-        cv2.imshow("Yellow",res)
+        cv2.imshow("Red",res)
                                
         if cv2.waitKey(10) & 0xFF == 27:
                 break

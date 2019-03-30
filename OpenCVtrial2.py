@@ -4,8 +4,9 @@ import cv2
 import numpy as np
 
 #Capturing Video through webcam.
-
 cap = cv2.VideoCapture(0)
+#cap.set(cv.CV_CAP_PROP_FRAME_WIDTH, 800)
+#cap.set(cv.CV_CAP_PROP_FRAME_HEIGHT, 600)
 
 while(True):
         ret, frame = cap.read()
@@ -38,8 +39,49 @@ while(True):
             #gives the coordinates of the finger
             fx = x + w/2
             fy = y - h/2
-            print(fx)
+            #print(fx)
             #print(fy)
+            #tracking the piano keys
+            key_width = 53
+            #B note
+            if fx <= 53:
+                print('B')
+            #A# note
+            if 54 <= fx <= 106:
+                print('A#')
+            #A note
+            if 107 <= fx <= 159:
+                print('A')
+            #G# note
+            if 160 <= fx <= 212:
+                print('G#')
+            #G note
+            if 213 <= fx <= 265:
+                print('G')
+            #F# note
+            if 267 <= fx <= 318:
+                print('F#')
+            #F note
+            if 319 <= fx <= 371:
+                print('F')
+            #E note
+            if 372 <= fx <= 424:
+                print('E')
+            #D# note
+            if 425 <= fx <= 477:
+                print('D#')
+            #D note
+            if 478 <= fx <= 530:
+                print('D')
+            #C# note
+            if 531 <= fx <= 583:
+                print('C#')
+            #C note
+            if 584 <= fx <= 636:
+                print('C')
+            #Out of range
+            else:
+                print('Out of playing range!')
 
         #Shows the video being captured, frame by frame                
         cv2.imshow("Finger Tracking",frame)

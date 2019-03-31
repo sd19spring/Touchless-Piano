@@ -1,5 +1,5 @@
 :Name: Interactive Visualization - Software Design
-:Author: Sparsh Bansal, Lee Smith
+:Authors: Sparsh Bansal, Lee Smith
 :Version: 2.0
 
 Interactive Visualization is a project in Software Design at Olin College of Engineering.
@@ -27,16 +27,16 @@ The easiest and fastest way to get the packages up and running:
 Documentation
 =============
 
-I have added comments for every line of code that I felt could be beneficial for someone to understand the program
+We have added comments for every line of code that we felt could be beneficial for someone to understand the program
 
-Note: I haved added comments especially on the imported packages and code so that I can fully understand the code written by someone else. I have cited the sources wherever appropriate. 
+Note: We haved added comments especially on the imported packages and code so that we can fully understand the code written by someone else. We have cited the sources wherever appropriate. 
 
 More documentation can be found in the file documentation.txt
 
 Contributing
 ============
 
-I used information from:
+We used information from:
 
 :i: Think Python - Allen Downey
 

@@ -4,6 +4,8 @@ import cv2 as cv2
 from threading import Thread
 from music21 import *
 
+
+#Makes a new class called webcam which captures current frames
 class Webcam:
 
     def __init__(self):
@@ -23,6 +25,7 @@ class Webcam:
         return self.current_frame
 
 
+# Makes a class called Detection which detects motion by comparing frames
 class Detection(object):
     THRESHOLD = 1500
 
@@ -35,26 +38,28 @@ class Detection(object):
         delta = cv2.absdiff(self.previous_gray, current_gray)
         threshold_image = cv2.threshold(delta, 25, 255, cv2.THRESH_BINARY)[1]
 
-        # debug
+        # delays by a few frames for better input
         cv2.imshow('OpenCV Detection', image)
-        cv2.waitKey(10)
+        cv2.waitKey(100)
 
-        # store current image
+        # stores current image
         self.previous_gray = current_gray
 
-        # set cell width
+        # sets cell width
         height, width = threshold_image.shape[:2]
-        cell_width = width / 7
+        cell_width = width / 9
 
         # store motion level for each cell
-        cells = np.array([0, 0, 0, 0, 0, 0, 0])
+        cells = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
         cells[0] = cv2.countNonZero(threshold_image[0:int(height), 0:int(cell_width)])
         cells[1] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width):int(cell_width) * 2])
         cells[2] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 2:int(cell_width) * 3])
         cells[3] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 3:int(cell_width) * 4])
         cells[4] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 4:int(cell_width) * 5])
         cells[5] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 5:int(cell_width) * 6])
-        cells[6] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 6:int(width)])
+        cells[6] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 6:int(width)]*7)
+        cells[7] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 7:int(width)]*8)
+        cells[8] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 8:int(width)])
 
         # obtain the most active cell
         top_cell = np.argmax(cells)
@@ -65,34 +70,54 @@ class Detection(object):
         else:
             return None
 
-# musical notes (C, D, E, F, G,cells[7] A, B)
-note.list = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
+# list of notes
+note.list = ['C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '#']
 
-# initialise webcam and start thread
+# starts webcam and thread
 webcam = Webcam()
 webcam.start()
 
-# initialise detection with first webcam frame
+# begins detection with the first webcam frame
 image = webcam.get_current_frame()
 detection = Detection(image)
 
-# initialise switch
+# switches on if movement is detected
 switch = True
 
 while True:
 
-    # get current frame from webcam
+    # gets current frame from the webcam
     image = webcam.get_current_frame()
 
-    # use motion detection to get active cell
+    # uses motion detection to retrieve active cell
     cell = detection.get_active_cell(image)
     if cell == None: continue
 
-    # if switch on, play note
+    # if the switch is on, plays the selected note
     if switch:
-        n = (note.list[cell])
+        if note.list[cell] != '-' and note.list[cell] != '#':
+            n = note.list[cell]
+            print(n)
+        elif note.list[cell] == '-' or note.list[cell] == '#':
+            sf = note.list[cell]
+            n = str(input("what note do you want")) + str(note.list[cell])
+            print(n)
         n = note.Note(str(n.upper()))
         n.show('midi')
     # alternate switch
     switch = not switch
 
+def playnote():
+    oknotes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+    n = input("Press select which note you would like to play!")
+    sf = input("Is the note sharp or flat? Hold finger over the s for sharp, f for flat, or another button for neither.")
+    if n.lower() in oknotes:
+        if sf == 's':
+            n = n + '#'
+        if sf == 'f':
+            n = n + "-"
+        n = note.Note(str(n.upper()))
+        n.duration.type = 'whole'
+        return n.show('midi')
+    else:
+        return "Error: Out of Range. Please input a letter between A and G, or C5."

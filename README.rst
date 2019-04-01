@@ -13,6 +13,10 @@ Interactive Visualization Version 2.0 requires the following Python packages
 
     import cv2
     import numpy as np
+    import music21
+    import * from music21
+
+A MIDI player is also required. All testing used the timidity MIDI player.
 
 Installation
 ============
@@ -23,6 +27,16 @@ The easiest and fastest way to get the packages up and running:
 
     sudo apt-get install python-opencv
     sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-noseimport requests
+
+In order to install timidity, input the following on the command line:
+    sudo apt-get install timidity
+
+In order for the player to work, the envrionment must be set. The base location is included in the code. If your MIDI player is in a different location, it must be updated for this code to function.
+
+Set location:
+     environment.set('midiPath', '/path/location/')
+Default location:
+     'usr/bin/timidity' 
   
 Documentation
 =============
@@ -33,8 +47,8 @@ Note: We haved added comments especially on the imported packages and code so th
 
 More documentation can be found in the file documentation.txt
 
-Contributing
-============
+Contributing Works
+==================
 
 We used information from:
 
@@ -44,7 +58,12 @@ We used information from:
 
 :iii: OpenCV
 
-Citing
-======
+:iiii: User's Guide, music21 (MIT)
 
+Source URLs:
+======
+Think Python:
 https://www.greenteapress.com/thinkpython/thinkpython.pdf
+
+Music21:
+https://web.mit.edu/music21/doc/usersGuide/index.html

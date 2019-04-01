@@ -5,7 +5,7 @@ from threading import Thread
 from music21 import *
 
 
-#Makes a new class called webcam which captures current frames
+# Makes a new class called webcam which captures current frames
 class Webcam:
 
     def __init__(self):
@@ -47,7 +47,7 @@ class Detection(object):
 
         # sets cell width
         height, width = threshold_image.shape[:2]
-        cell_width = width / 9
+        cell_width = width / 7
 
         # store motion level for each cell
         cells = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -57,9 +57,8 @@ class Detection(object):
         cells[3] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 3:int(cell_width) * 4])
         cells[4] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 4:int(cell_width) * 5])
         cells[5] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 5:int(cell_width) * 6])
-        cells[6] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 6:int(width)]*7)
-        cells[7] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 7:int(width)]*8)
-        cells[8] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 8:int(width)])
+        cells[6] = cv2.countNonZero(threshold_image[0:int(height), int(cell_width) * 6:int(width)])
+
 
         # obtain the most active cell
         top_cell = np.argmax(cells)
@@ -71,7 +70,7 @@ class Detection(object):
             return None
 
 # list of notes
-note.list = ['C', 'D', 'E', 'F', 'G', 'A', 'B', '-', '#']
+note.list = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
 
 # starts webcam and thread
 webcam = Webcam()
@@ -86,6 +85,7 @@ switch = True
 
 while True:
 
+
     # gets current frame from the webcam
     image = webcam.get_current_frame()
 
@@ -95,29 +95,8 @@ while True:
 
     # if the switch is on, plays the selected note
     if switch:
-        if note.list[cell] != '-' and note.list[cell] != '#':
-            n = note.list[cell]
-            print(n)
-        elif note.list[cell] == '-' or note.list[cell] == '#':
-            sf = note.list[cell]
-            n = str(input("what note do you want")) + str(note.list[cell])
-            print(n)
+        n = note.list[cell]
         n = note.Note(str(n.upper()))
         n.show('midi')
     # alternate switch
     switch = not switch
-
-def playnote():
-    oknotes = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
-    n = input("Press select which note you would like to play!")
-    sf = input("Is the note sharp or flat? Hold finger over the s for sharp, f for flat, or another button for neither.")
-    if n.lower() in oknotes:
-        if sf == 's':
-            n = n + '#'
-        if sf == 'f':
-            n = n + "-"
-        n = note.Note(str(n.upper()))
-        n.duration.type = 'whole'
-        return n.show('midi')
-    else:
-        return "Error: Out of Range. Please input a letter between A and G, or C5."

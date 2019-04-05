@@ -1,8 +1,8 @@
-:Name: Interactive Visualization - Software Design
+:Name: Touchless Piano - Interactive Visualization, Software Design
 :Authors: Sparsh Bansal, Lee Smith
 :Version: 2.0
 
-Interactive Visualization is a project in Software Design at Olin College of Engineering.
+The Touchless Piano is an Interactive Visualization project in Software Design at Olin College of Engineering.
 
 Requirements
 ============
